@@ -1,0 +1,72 @@
+PEOPLE
+Arjun Malhotra — VP Sales (agent's user) — arjun.malhotra@veridian-corp.example
+Neha Kapoor — Marketing Lead — neha.kapoor@veridian-corp.example
+Raghav Sethi — Ops Manager — raghav.sethi@veridian-corp.example
+Divya Rao — Finance — divya.rao@veridian-corp.example
+Priya Nair — Meridian Logistics (external client) — priya.nair@meridianlogistics.example
+Facilities — internal distribution list — facilities@veridian-corp.example
+
+=== MEETING TRANSCRIPT — Leadership Sync, Mon 21 Sep 2026, 9:00-9:35 AM ===
+Attendees: Arjun Malhotra, Neha Kapoor, Raghav Sethi, Divya Rao
+Arjun: Let's keep this quick. Neha, where are we on the Q3 campaign deck?
+Neha: Draft is 80% done. I'll send it to Arjun for review by Wednesday.
+Arjun: Good. Also, remind me — I told Raghav I'd send him the updated vendor list. I'll get that to him by end of day tomorrow.
+Raghav: Appreciated. Separately, the Mumbai office renewal paperwork needs someone to sign off this week. Not sure whose desk that's on right now.
+Divya: I think that's supposed to be Facilities, but I haven't seen anyone pick it up.
+Arjun: Okay, flag it, don't assume. Divya, can you also pull the July expense variance report before Thursday's board prep?
+Divya: Yes, I'll have it ready Wednesday evening.
+Arjun: One more thing — client call with Meridian Logistics got pushed. I need to reconfirm the new time with their team myself.
+Neha: Also, just a reminder, the campaign deck review — I said Wednesday, but realistically Thursday morning is safer.
+Arjun: Noted. Let's close here.
+
+=== CALENDARS (week of 21-25 Sep 2026) ===
+Arjun: Mon 9:00-9:35 Leadership Sync; Mon 2:00-2:30 1:1 with Neha; Mon 4:00-5:00 Blocked;
+Tue 11:00-12:00 Internal Budget Review; Tue 3:00-3:30 Blocked;
+Wed 3:00-3:30 Call - Meridian Logistics; Wed 6:00-6:15 Blocked;
+Thu 9:00-10:00 Board Prep Session; Thu 4:00-5:00 Hiring Panel - Sales Associate;
+Fri 10:00-10:30 Facilities Check-in; Fri 1:00-2:00 Blocked
+Neha: Mon 10:00-11:00 Blocked; Mon 2:00-2:30 1:1 with Arjun; Tue 1:00-2:00 Campaign Vendor Call;
+Wed 10:00-10:30 Deck Prep; Wed 1:00-3:00 Blocked; Thu 9:30-10:00 Deck Review with Arjun; Fri 11:00-12:00 Blocked
+Raghav: Mon 9:00-9:35 Leadership Sync; Mon 1:00-2:00 Blocked; Tue 11:00-12:00 Internal Budget Review;
+Tue 3:30-4:00 Ops Standup; Wed 9:00-11:00 Blocked; Thu 2:00-3:00 Blocked; Fri 10:00-10:30 Facilities Check-in; Fri 3:00-4:00 Blocked
+Divya: Mon 2:30-3:00 Budget Prep; Mon 4:00-5:00 Blocked; Tue 9:00-9:15 Quick Call with Arjun;
+Tue 11:00-12:00 Internal Budget Review; Wed 1:00-2:00 Blocked; Thu 9:00-10:00 Board Prep Session; Thu 2:00-3:00 Blocked; Fri 10:00-11:00 Blocked
+
+=== EMAIL THREAD: Vendor List ===
+1. Mon 9:50 AM, Raghav->Arjun: Following up from the sync — can you send the updated vendor list today?
+2. Mon 5:40 PM, Arjun->Raghav: Running behind, will send first thing tomorrow morning instead.
+3. Tue 9:15 AM, Raghav->Arjun: No worries, whenever you get a chance today works.
+4. Tue 6:30 PM, Arjun->Raghav: Sorry, got pulled into board prep — will send by tomorrow (Wednesday) morning for sure.
+5. Wed 8:45 AM, Raghav->Arjun: Just checking — still good for this morning?
+
+=== EMAIL THREAD: Q3 Campaign Deck ===
+1. Mon 11:00 AM, Neha->Arjun: Deck's coming together, still targeting Wednesday for your review.
+2. Tue 4:15 PM, Neha->Arjun: Heads up — shifting the review to Thursday morning instead of Wednesday, need one more day on the data slides.
+3. Wed 10:00 AM, Arjun->Neha: Understood, Thursday morning works. What time exactly?
+4. Wed 10:20 AM, Neha->Arjun: Let's say 9:30 AM Thursday, before your board prep block.
+5. Thu 8:00 AM, Neha->Arjun: Deck is ready, attaching the draft ahead of our 9:30 review.
+
+=== EMAIL THREAD: Call Reschedule ===
+1. Mon 1:00 PM, Priya->Arjun: Our scheduled call this week got bumped from our side — can you propose a new time? We're flexible Tuesday-Thursday afternoons.
+2. Tue 3:00 PM, Arjun->Priya: Apologies for the delay — how about Wednesday 3:00 PM?
+3. Tue 5:45 PM, Priya->Arjun: Wednesday 3 PM works on our end, confirmed.
+4. Wed 1:30 PM, Priya->Arjun: Quick check — still on for 3 PM today?
+5. Wed 2:00 PM, Arjun->Priya: Yes, confirmed, see you at 3.
+
+=== EMAIL THREAD: Expense Variance Report ===
+1. Mon 2:30 PM, Divya->Arjun: Starting on the July variance numbers, targeting Thursday morning for board prep as discussed.
+2. Tue 9:00 AM, Arjun->Divya: Actually, can I get it by Wednesday evening instead? Want time to review before Thursday.
+3. Tue 9:40 AM, Divya->Arjun: Wednesday evening is tight but doable, I'll prioritize it.
+4. Wed 6:00 PM, Divya->Arjun: Report attached, sent as promised.
+5. Wed 6:10 PM, Arjun->Divya: Got it, thank you — exactly what I needed before tomorrow.
+
+=== EMAIL THREAD: Mumbai Office Lease Renewal ===
+1. Mon 10:15 AM, Facilities->All Staff: Reminder: the Mumbai office lease renewal requires an authorized signature by Friday, 25 September.
+2. Tue 11:00 AM, Raghav->Arjun,Divya: Following up from the sync — has anyone confirmed who's signing off on the Mumbai renewal? Don't think it's been assigned.
+3. Wed 9:30 AM, Divya->Raghav,Arjun: Not on my end — I believe this typically sits with Facilities directly, not us.
+4. Thu 4:00 PM, Facilities->All Staff: Second reminder: signature is still pending. Deadline is Friday, 25 September, end of day.
+5. Thu 4:45 PM, Raghav->Arjun: This is now one day out and still unowned — can you confirm who's handling it?
+
+=== VOICE MEMOS (Arjun, personal notes to self) ===
+1. Mon 6:40 PM (recorded in cab): Quick note to self — need to get Raghav that vendor list, I think I said today but it might slip to tomorrow morning, remind me. Also still haven't heard back on the Mumbai lease thing, someone needs to own that, I don't think it's me.
+2. Wed 8:15 AM: Reminder — expense variance report from Divya needs to be in my hands by Wednesday evening, not Thursday, I want time to go through it before board prep. Also Meridian call — I owe Priya a time, need to lock that in today.

@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Daily Brief — Arjun Malhotra</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#EDE7D9;
+    --ink-dim:#B9B2A0;
+    --paper:#1B1F27;
+    --paper-raised:#232833;
+    --shell:#12151B;
+    --rule:#343B47;
+    --accent-due:#C79A3D;
+    --accent-over:#C25B45;
+    --accent-flag:#7E86C9;
+    --accent-ok:#5C9376;
+    --accent-wait:#7CA7C9;
+    --font-serif:'Source Serif 4', Georgia, 'Times New Roman', serif;
+    --font-sans:'IBM Plex Sans', -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+    --font-mono:'IBM Plex Mono', 'SFMono-Regular', Menlo, monospace;
+  }
+  @media (prefers-color-scheme: light) {
+    :root:not([data-theme="dark"]){
+      --ink:#211C12;
+      --ink-dim:#6B6252;
+      --paper:#FBF7EE;
+      --paper-raised:#F2ECDD;
+      --shell:#E9E2CF;
+      --rule:#D8CEB4;
+      --accent-due:#8A6414;
+      --accent-over:#9B3F2A;
+      --accent-flag:#4A4F94;
+      --accent-ok:#3D6E52;
+      --accent-wait:#2E6584;
+    }
+  }
+  :root[data-theme="light"]{
+    --ink:#211C12;
+    --ink-dim:#6B6252;
+    --paper:#FBF7EE;
+    --paper-raised:#F2ECDD;
+    --shell:#E9E2CF;
+    --rule:#D8CEB4;
+    --accent-due:#8A6414;
+    --accent-over:#9B3F2A;
+    --accent-flag:#4A4F94;
+    --accent-ok:#3D6E52;
+    --accent-wait:#2E6584;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:var(--shell);
+    color:var(--ink);
+    font-family:var(--font-sans);
+    -webkit-font-smoothing:antialiased;
+    min-height:100vh;
+  }
+  .wrap{max-width:960px;margin:0 auto;padding:28px 20px 80px;}
+
+  header.top{
+    display:flex;justify-content:space-between;align-items:flex-end;
+    gap:16px;flex-wrap:wrap;
+    border-bottom:1px solid var(--rule);
+    padding-bottom:18px;margin-bottom:22px;
+  }
+  .masthead h1{
+    font-family:var(--font-serif);
+    font-weight:600;
+    font-size:clamp(1.5rem,4vw,2.1rem);
+    margin:0 0 4px;
+    letter-spacing:0.2px;
+  }
+  .masthead .sub{color:var(--ink-dim);font-size:0.92rem;}
+  .masthead .sub b{color:var(--ink);font-weight:600;}
+
+  .clock-control{
+    display:flex;flex-direction:column;gap:6px;align-items:flex-end;
+  }
+  .clock-control label{font-size:0.72rem;text-transform:uppercase;letter-spacing:0.08em;color:var(--ink-dim);}
+  select#asOf{
+    background:var(--paper-raised);
+    color:var(--ink);
+    border:1px solid var(--rule);
+    border-radius:3px;
+    padding:7px 10px;
+    font-family:var(--font-mono);
+    font-size:0.82rem;
+    min-width:230px;
+  }
+
+  .counts{
+    display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));
+    gap:10px;margin-bottom:26px;
+  }
+  .count-card{
+    background:var(--paper);
+    border:1px solid var(--rule);
+    border-radius:4px;
+    padding:12px 14px;
+  }
+  .count-card .n{font-family:var(--font-serif);font-size:1.7rem;font-weight:700;line-height:1;}
+  .count-card .l{font-size:0.72rem;color:var(--ink-dim);text-transform:uppercase;letter-spacing:0.06em;margin-top:5px;}
+  .count-card.over .n{color:var(--accent-over);}
+  .count-card.due .n{color:var(--accent-due);}
+  .count-card.flag .n{color:var(--accent-flag);}
+  .count-card.wait .n{color:var(--accent-wait);}
+  .count-card.ok .n{color:var(--accent-ok);}
+
+  section.block{margin-bottom:28px;}
+  section.block > h2{
+    font-family:var(--font-serif);
+    font-size:1.1rem;font-weight:600;
+    margin:0 0 4px;
+    display:flex;align-items:center;gap:8px;
+  }
+  section.block > p.desc{color:var(--ink-dim);font-size:0.85rem;margin:0 0 12px;}
+  .dot{width:9px;height:9px;border-radius:50%;display:inline-block;}
+  .dot.over{background:var(--accent-over);}
+  .dot.due{background:var(--accent-due);}
+  .dot.flag{background:var(--accent-flag);}
+  .dot.wait{background:var(--accent-wait);}
+  .dot.ok{background:var(--accent-ok);}
+
+  .item{
+    background:var(--paper);
+    border:1px solid var(--rule);
+    border-left:3px solid var(--rule);
+    border-radius:4px;
+    padding:13px 15px;
+    margin-bottom:9px;
+  }
+  .item.over{border-left-color:var(--accent-over);}
+  .item.due{border-left-color:var(--accent-due);}
+  .item.flag{border-left-color:var(--accent-flag);}
+  .item.wait{border-left-color:var(--accent-wait);}
+  .item.ok{border-left-color:var(--accent-ok);opacity:0.75;}
+
+  .item-top{display:flex;justify-content:space-between;gap:10px;align-items:flex-start;flex-wrap:wrap;}
+  .item-title{font-weight:600;font-size:0.96rem;}
+  .badge{
+    font-family:var(--font-mono);
+    font-size:0.68rem;
+    text-transform:uppercase;letter-spacing:0.06em;
+    padding:2px 7px;border-radius:2px;
+    white-space:nowrap;
+    border:1px solid currentColor;
+  }
+  .badge.over{color:var(--accent-over);}
+  .badge.due{color:var(--accent-due);}
+  .badge.flag{color:var(--accent-flag);}
+  .badge.wait{color:var(--accent-wait);}
+  .badge.ok{color:var(--accent-ok);}
+
+  .item-meta{font-size:0.8rem;color:var(--ink-dim);margin-top:5px;}
+  .item-meta b{color:var(--ink);font-weight:600;}
+  .item-note{font-size:0.82rem;margin-top:7px;padding:8px 10px;background:var(--paper-raised);border-radius:3px;}
+
+  details.trail{margin-top:8px;}
+  details.trail summary{
+    cursor:pointer;font-size:0.76rem;color:var(--ink-dim);
+    font-family:var(--font-mono);
+  }
+  details.trail summary:hover{color:var(--ink);}
+  .trail-list{margin:8px 0 0;padding-left:0;list-style:none;border-left:1px solid var(--rule);}
+  .trail-list li{
+    font-size:0.8rem;padding:4px 0 4px 12px;margin-left:2px;position:relative;color:var(--ink-dim);
+  }
+  .trail-list li::before{
+    content:'';position:absolute;left:-4.5px;top:11px;width:7px;height:7px;border-radius:50%;
+    background:var(--rule);
+  }
+  .trail-list li .src-time{font-family:var(--font-mono);color:var(--ink);margin-right:6px;}
+
+  .empty-note{color:var(--ink-dim);font-size:0.85rem;font-style:italic;padding:10px 0;}
+
+  .ask-box{
+    background:var(--paper);border:1px solid var(--rule);border-radius:6px;
+    padding:18px;margin-bottom:28px;
+  }
+  .ask-box h2{font-family:var(--font-serif);font-size:1.1rem;margin:0 0 10px;}
+  .ask-row{display:flex;gap:8px;}
+  .ask-row input{
+    flex:1;background:var(--paper-raised);border:1px solid var(--rule);border-radius:4px;
+    color:var(--ink);padding:10px 12px;font-family:var(--font-sans);font-size:0.9rem;
+  }
+  .ask-row input:focus{outline:2px solid var(--accent-wait);outline-offset:1px;}
+  .ask-row button{
+    background:var(--ink);color:var(--shell);border:none;border-radius:4px;
+    padding:0 18px;font-weight:600;font-size:0.85rem;cursor:pointer;
+  }
+  .ask-row button:hover{opacity:0.88;}
+  .chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px;}
+  .chip{
+    background:var(--paper-raised);border:1px solid var(--rule);border-radius:20px;
+    padding:5px 12px;font-size:0.76rem;cursor:pointer;color:var(--ink-dim);
+  }
+  .chip:hover{color:var(--ink);border-color:var(--ink-dim);}
+  #answer{margin-top:14px;font-size:0.9rem;line-height:1.5;}
+  #answer .a-head{font-weight:600;margin-bottom:6px;}
+
+  footer.about{
+    border-top:1px solid var(--rule);padding-top:16px;margin-top:8px;
+    font-size:0.78rem;color:var(--ink-dim);line-height:1.6;
+  }
+  footer.about summary{cursor:pointer;font-family:var(--font-mono);color:var(--ink);margin-bottom:8px;}
+  footer.about ul{margin:6px 0;padding-left:18px;}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="top">
+    <div class="masthead">
+      <h1>Daily Brief</h1>
+      <div class="sub">for <b>Arjun Malhotra</b> · VP Sales · week of 21–25 Sep 2026</div>
+    </div>
+    <div class="clock-control">
+      <label for="asOf">Viewing as of</label>
+      <select id="asOf"></select>
+    </div>
+  </header>
+
+  <div class="counts" id="counts"></div>
+
+  <section class="ask-box">
+    <h2>Ask about a commitment</h2>
+    <div class="ask-row">
+      <input id="askInput" type="text" placeholder="e.g. What did I promise Raghav?" />
+      <button id="askBtn">Ask</button>
+    </div>
+    <div class="chips" id="chips"></div>
+    <div id="answer"></div>
+  </section>
+
+  <section class="block" id="sec-overdue">
+    <h2><span class="dot over"></span> Overdue &amp; at risk</h2>
+    <p class="desc">Your commitments that have slipped past their most recently agreed deadline.</p>
+    <div class="list"></div>
+  </section>
+
+  <section class="block" id="sec-today">
+    <h2><span class="dot due"></span> My actions due today</h2>
+    <p class="desc">Things you owe someone else, due by end of the viewing day.</p>
+    <div class="list"></div>
+  </section>
+
+  <section class="block" id="sec-flag">
+    <h2><span class="dot flag"></span> Flagged — ownership unclear</h2>
+    <p class="desc">Nobody has confirmed ownership. The agent will not guess who owns these.</p>
+    <div class="list"></div>
+  </section>
+
+  <section class="block" id="sec-waiting">
+    <h2><span class="dot wait"></span> Waiting on others</h2>
+    <p class="desc">Commitments made to you that haven't landed yet.</p>
+    <div class="list"></div>
+  </section>
+
+  <section class="block" id="sec-conflict">
+    <h2>⚠ Calendar conflicts</h2>
+    <p class="desc">Two commitments that land on the same time slot.</p>
+    <div class="list"></div>
+  </section>
+
+  <section class="block" id="sec-resolved">
+    <h2><span class="dot ok"></span> Resolved this week</h2>
+    <p class="desc">Closed out — kept here for reference, not for action.</p>
+    <div class="list"></div>
+  </section>
+
+  <footer class="about">
+    <details>
+      <summary>How this brief is built</summary>
+      <p>Every item below traces back to one or more of: the Monday leadership sync transcript, five email threads, two personal voice memos, and five calendars — nothing here is invented. Where a deadline was mentioned more than once (e.g. the vendor list slipped three times across a meeting, an email, and a voice note), the agent merges those mentions into <b>one</b> commitment and keeps only the latest agreed deadline, rather than showing three separate to-dos.</p>
+      <ul>
+        <li><b>My action</b> vs <b>waiting on</b> is assigned from who made the promise: if Arjun said "I'll send/confirm/get you," it's his action; if someone else promised Arjun something, it's on them.</li>
+        <li><b>Ownership gaps</b> (the Mumbai lease sign-off) are surfaced as flags, never auto-assigned to a person the data doesn't name.</li>
+        <li>A commitment restated in a later voice memo after it was already resolved by email (the Meridian call time) is shown as <i>stale — superseded</i> rather than reopened.</li>
+        <li>This prototype hard-codes the extracted commitments from the assignment data pack so the logic is transparent and inspectable. In production, an LLM extraction pass would populate this same structured schema from live inboxes/calendars/transcripts on a schedule, with the rest of the reasoning (dedup, ownership, deadline tracking) working exactly as shown here.</li>
+      </ul>
+    </details>
+  </footer>
+
+</div>
+
+<script>
+/* ---------- Timeline of "as of" checkpoints ---------- */
+const CHECKPOINTS = [
+  { id:'mon-am', label:'Mon 21 Sep · 9:00 AM  (after leadership sync)', t:'2026-09-21T09:35:00' },
+  { id:'mon-pm', label:'Mon 21 Sep · 6:00 PM', t:'2026-09-21T18:00:00' },
+  { id:'tue-am', label:'Tue 22 Sep · 9:00 AM', t:'2026-09-22T09:00:00' },
+  { id:'tue-pm', label:'Tue 22 Sep · 6:45 PM', t:'2026-09-22T18:45:00' },
+  { id:'wed-am', label:'Wed 23 Sep · 9:00 AM  (default)', t:'2026-09-23T09:00:00' },
+  { id:'wed-mid', label:'Wed 23 Sep · 2:00 PM', t:'2026-09-23T14:00:00' },
+  { id:'wed-pm', label:'Wed 23 Sep · 6:30 PM', t:'2026-09-23T18:30:00' },
+  { id:'thu-am', label:'Thu 24 Sep · 8:30 AM', t:'2026-09-24T08:30:00' },
+  { id:'thu-pm', label:'Thu 24 Sep · 5:00 PM', t:'2026-09-24T17:00:00' },
+  { id:'fri-am', label:'Fri 25 Sep · 9:00 AM', t:'2026-09-25T09:00:00' },
+  { id:'fri-pm', label:'Fri 25 Sep · 5:00 PM', t:'2026-09-25T17:00:00' },
+];
+const DEFAULT_CHECKPOINT = 'wed-am';
+
+/* ---------- Structured commitments extracted from the data pack ---------- */
+const COMMITMENTS = [
+  {
+    id:'vendor-list',
+    title:'Send updated vendor list to Raghav',
+    direction:'my_action',
+    counterpart:'Raghav Sethi',
+    deadline:'2026-09-23T12:00:00',
+    deadlineLabel:'Wed 23 Sep, morning',
+    resolvedAt:null,
+    note:'Slipped twice already (promised "today" Monday, then "tomorrow morning," then "Wednesday morning"). Raghav chased again Wednesday morning with no reply on record — treat as overdue until sent.',
+    sources:[
+      {t:'2026-09-21T09:00:00', type:'Meeting', label:'Leadership sync', text:'Arjun tells the room he\'ll get Raghav the updated vendor list by end of day Tuesday.'},
+      {t:'2026-09-21T17:40:00', type:'Email', label:'"Vendor List" thread', text:'Arjun tells Raghav he\'s running behind and will send first thing Tuesday morning instead.'},
+      {t:'2026-09-21T18:40:00', type:'Voice memo', label:'Note to self, in cab', text:'Arjun reminds himself the vendor list might slip to Tuesday morning.'},
+      {t:'2026-09-22T09:15:00', type:'Email', label:'"Vendor List" thread', text:'Raghav says any time today is fine.'},
+      {t:'2026-09-22T18:30:00', type:'Email', label:'"Vendor List" thread', text:'Arjun apologizes again — pulled into board prep — and commits to Wednesday morning "for sure."'},
+      {t:'2026-09-23T08:45:00', type:'Email', label:'"Vendor List" thread', text:'Raghav checks in again: "still good for this morning?" — no reply on record.'},
+    ],
+  },
+  {
+    id:'deck-draft',
+    title:'Receive Q3 campaign deck draft from Neha',
+    direction:'waiting_on',
+    counterpart:'Neha Kapoor',
+    deadline:'2026-09-24T09:30:00',
+    deadlineLabel:'Thu 24 Sep, 9:30 AM',
+    resolvedAt:'2026-09-24T08:00:00',
+    note:'Deadline moved once — Neha asked for an extra day on the data slides and Arjun agreed. Draft landed on schedule Thursday morning.',
+    sources:[
+      {t:'2026-09-21T09:00:00', type:'Meeting', label:'Leadership sync', text:'Neha says the deck is 80% done and targets Wednesday for Arjun\'s review; she flags Thursday morning as the safer bet before the meeting ends.'},
+      {t:'2026-09-21T11:00:00', type:'Email', label:'"Q3 Campaign Deck" thread', text:'Neha confirms she\'s still targeting Wednesday.'},
+      {t:'2026-09-22T16:15:00', type:'Email', label:'"Q3 Campaign Deck" thread', text:'Neha pushes the review to Thursday morning, needing one more day on the data slides.'},
+      {t:'2026-09-23T10:00:00', type:'Email', label:'"Q3 Campaign Deck" thread', text:'Arjun agrees to Thursday morning and asks for a time.'},
+      {t:'2026-09-23T10:20:00', type:'Email', label:'"Q3 Campaign Deck" thread', text:'Neha sets 9:30 AM Thursday, ahead of Arjun\'s board prep block.'},
+      {t:'2026-09-24T08:00:00', type:'Email', label:'"Q3 Campaign Deck" thread', text:'Neha sends the finished draft ahead of the 9:30 review.'},
+    ],
+  },
+  {
+    id:'deck-review-meeting',
+    title:'Review Q3 campaign deck with Neha (9:30–10:00 AM Thu)',
+    direction:'my_action',
+    counterpart:'Neha Kapoor',
+    deadline:'2026-09-24T09:30:00',
+    deadlineLabel:'Thu 24 Sep, 9:30 AM',
+    resolvedAt:null,
+    conflictWith:'This overlaps Arjun\'s own Board Prep Session (9:00–10:00 AM Thursday) — a direct calendar conflict, not just a tight turnaround.',
+    note:'Scheduled meeting, not just a to-do — flagged separately below under Calendar conflicts.',
+    sources:[
+      {t:'2026-09-23T10:20:00', type:'Email', label:'"Q3 Campaign Deck" thread', text:'Neha sets the review for 9:30 AM Thursday.'},
+      {t:'2026-09-24T00:00:00', type:'Calendar', label:'Neha\'s calendar', text:'"Deck Review with Arjun," Thu 9:30–10:00 AM.'},
+      {t:'2026-09-24T00:00:00', type:'Calendar', label:'Arjun\'s calendar', text:'"Board Prep Session," Thu 9:00–10:00 AM — overlaps the deck review by 30 minutes.'},
+    ],
+  },
+  {
+    id:'mumbai-lease',
+    title:'Mumbai office lease renewal — authorized signature',
+    direction:'flag',
+    counterpart:'Unassigned',
+    deadline:'2026-09-25T18:00:00',
+    deadlineLabel:'Fri 25 Sep, end of day',
+    resolvedAt:null,
+    note:'Raised twice in the sync and by Facilities twice, and still nobody has claimed it. Divya believes it sits with Facilities; Facilities has only broadcast reminders, not claimed an owner. Arjun\'s own instinct (per his voice memo) is that it isn\'t his to sign — the agent is not assigning it to him, or to anyone, without confirmation.',
+    sources:[
+      {t:'2026-09-21T09:00:00', type:'Meeting', label:'Leadership sync', text:'Raghav flags that the Mumbai renewal needs sign-off this week; Divya isn\'t sure it\'s been picked up; Arjun says to flag it, not assume an owner.'},
+      {t:'2026-09-21T10:15:00', type:'Email', label:'"Mumbai Office Lease Renewal" thread', text:'Facilities broadcasts to all staff that a signature is required by Friday 25 Sep.'},
+      {t:'2026-09-21T18:40:00', type:'Voice memo', label:'Note to self, in cab', text:'Arjun notes he still hasn\'t heard who owns the Mumbai lease and doesn\'t think it\'s him.'},
+      {t:'2026-09-22T11:00:00', type:'Email', label:'"Mumbai Office Lease Renewal" thread', text:'Raghav asks Arjun and Divya directly whether anyone has confirmed who\'s signing off — still unassigned.'},
+      {t:'2026-09-23T09:30:00', type:'Email', label:'"Mumbai Office Lease Renewal" thread', text:'Divya replies this isn\'t on Finance — she believes it typically sits with Facilities directly.'},
+      {t:'2026-09-24T16:00:00', type:'Email', label:'"Mumbai Office Lease Renewal" thread', text:'Facilities sends a second reminder: still pending, deadline Friday end of day.'},
+      {t:'2026-09-24T16:45:00', type:'Email', label:'"Mumbai Office Lease Renewal" thread', text:'Raghav escalates: one day out and still unowned, asks Arjun to confirm who is handling it.'},
+    ],
+  },
+  {
+    id:'expense-report',
+    title:'Receive July expense variance report from Divya',
+    direction:'waiting_on',
+    counterpart:'Divya Rao',
+    deadline:'2026-09-23T18:00:00',
+    deadlineLabel:'Wed 23 Sep, evening',
+    resolvedAt:'2026-09-23T18:00:00',
+    note:'Original target was Thursday morning; Arjun asked Divya to pull it forward to Wednesday evening so he\'d have time to review before board prep. She delivered on the revised deadline and Arjun confirmed receipt.',
+    sources:[
+      {t:'2026-09-21T09:00:00', type:'Meeting', label:'Leadership sync', text:'Arjun asks Divya to pull the July expense variance report before Thursday\'s board prep; she says it will be ready Wednesday evening.'},
+      {t:'2026-09-21T14:30:00', type:'Email', label:'"Expense Variance Report" thread', text:'Divya confirms she\'s starting on it, targeting Thursday morning as discussed.'},
+      {t:'2026-09-22T09:00:00', type:'Email', label:'"Expense Variance Report" thread', text:'Arjun asks to move the deadline up to Wednesday evening, to give himself review time.'},
+      {t:'2026-09-22T09:40:00', type:'Email', label:'"Expense Variance Report" thread', text:'Divya agrees it\'s tight but doable and will prioritize it.'},
+      {t:'2026-09-23T08:15:00', type:'Voice memo', label:'Note to self', text:'Arjun reminds himself he wants the report Wednesday evening, not Thursday, to review before board prep.'},
+      {t:'2026-09-23T18:00:00', type:'Email', label:'"Expense Variance Report" thread', text:'Divya sends the report as promised.'},
+      {t:'2026-09-23T18:10:00', type:'Email', label:'"Expense Variance Report" thread', text:'Arjun confirms receipt — exactly what he needed before tomorrow.'},
+    ],
+  },
+  {
+    id:'meridian-call',
+    title:'Reconfirm rescheduled call time with Priya (Meridian Logistics)',
+    direction:'my_action',
+    counterpart:'Priya Nair · Meridian Logistics',
+    deadline:'2026-09-22T18:00:00',
+    deadlineLabel:'Tue 22 Sep, evening',
+    resolvedAt:'2026-09-22T17:45:00',
+    note:'Closed out Tuesday evening — Wednesday 3:00 PM confirmed and re-confirmed, matching the calendar entry.',
+    staleReminder:{
+      t:'2026-09-23T08:15:00',
+      text:'Arjun\'s Wednesday morning voice memo says he still "owes Priya a time" and needs to lock it in — but the email thread shows this was already confirmed Tuesday at 5:45 PM. The agent treats this as a stale, already-resolved reminder rather than reopening the commitment.',
+    },
+    sources:[
+      {t:'2026-09-21T13:00:00', type:'Email', label:'"Call Reschedule" thread', text:'Priya says their scheduled call this week was bumped and asks Arjun to propose a new time; her team is flexible Tue–Thu afternoons.'},
+      {t:'2026-09-22T15:00:00', type:'Email', label:'"Call Reschedule" thread', text:'Arjun apologizes for the delay and proposes Wednesday 3:00 PM.'},
+      {t:'2026-09-22T17:45:00', type:'Email', label:'"Call Reschedule" thread', text:'Priya confirms Wednesday 3:00 PM works.'},
+      {t:'2026-09-23T08:15:00', type:'Voice memo', label:'Note to self', text:'Arjun reminds himself he still owes Priya a time — recorded after the time was already confirmed by email.'},
+      {t:'2026-09-23T13:30:00', type:'Email', label:'"Call Reschedule" thread', text:'Priya checks in — still on for 3 PM today?'},
+      {t:'2026-09-23T14:00:00', type:'Email', label:'"Call Reschedule" thread', text:'Arjun confirms, see you at 3.'},
+    ],
+  },
+];
+
+/* ---------- Helpers ---------- */
+const $ = (sel,root=document)=>root.querySelector(sel);
+const fmtTime = iso => new Date(iso).toLocaleString('en-US',{weekday:'short',month:'short',day:'numeric',hour:'numeric',minute:'2-digit'});
+const fmtTimeShort = iso => new Date(iso).toLocaleString('en-US',{weekday:'short',hour:'numeric',minute:'2-digit'});
+
+function computeState(item, asOf){
+  const now = new Date(asOf).getTime();
+  const resolved = item.resolvedAt && now >= new Date(item.resolvedAt).getTime();
+  if (item.direction === 'flag'){
+    if (resolved) return 'ok';
+    const dl = new Date(item.deadline).getTime();
+    if (now > dl) return 'over';
+    if (dl - now <= 24*3600*1000) return 'due';
+    return 'flag';
+  }
+  if (resolved) return 'ok';
+  const dl = new Date(item.deadline).getTime();
+  if (now > dl) return 'over';
+  const sameDay = new Date(now).toDateString() === new Date(dl).toDateString();
+  if (sameDay) return 'due';
+  return item.direction === 'waiting_on' ? 'wait' : 'due';
+}
+
+function stateLabel(state){
+  return {over:'Overdue', due:'Due', flag:'Unclear owner', wait:'Waiting', ok:'Resolved'}[state];
+}
+
+function buildTrail(item, asOf){
+  let rows = item.sources.map(s=>`<li><span class="src-time">${fmtTimeShort(s.t)}</span>${s.type} — ${s.label}: ${s.text}</li>`);
+  if (item.staleReminder && new Date(asOf) >= new Date(item.staleReminder.t)){
+    rows.push(`<li><span class="src-time">${fmtTimeShort(item.staleReminder.t)}</span>Voice memo (stale) — ${item.staleReminder.text}</li>`);
+  }
+  return `<details class="trail"><summary>${item.sources.length + (item.staleReminder?1:0)} source${item.sources.length>1?'s':''} — show trail</summary><ul class="trail-list">${rows.join('')}</ul></details>`;
+}
+
+function renderItem(item, state, asOf){
+  const div = document.createElement('div');
+  div.className = `item ${state}`;
+  let conflictHtml = item.conflictWith ? `<div class="item-note">⚠ ${item.conflictWith}</div>` : '';
+  div.innerHTML = `
+    <div class="item-top">
+      <div class="item-title">${item.title}</div>
+      <span class="badge ${state}">${stateLabel(state)}</span>
+    </div>
+    <div class="item-meta"><b>${item.direction === 'my_action' ? 'You owe' : item.direction === 'waiting_on' ? 'Owed by' : 'Counterpart'}:</b> ${item.counterpart} &nbsp;·&nbsp; <b>Deadline:</b> ${item.deadlineLabel}</div>
+    ${item.note ? `<div class="item-meta" style="margin-top:6px;">${item.note}</div>` : ''}
+    ${conflictHtml}
+    ${buildTrail(item, asOf)}
+  `;
+  return div;
+}
+
+function render(){
+  const asOf = $('#asOf').value;
+  const states = COMMITMENTS.map(item => ({item, state: computeState(item, asOf)}));
+
+  const groups = {
+    over: states.filter(s=>s.state==='over'),
+    due: states.filter(s=>s.state==='due' && s.item.direction!=='flag'),
+    flag: states.filter(s=>['flag','over','due'].includes(s.state) && s.item.direction==='flag'),
+    wait: states.filter(s=>s.state==='wait'),
+    ok: states.filter(s=>s.state==='ok'),
+  };
+  // overdue flags already counted in "over"; keep flag section to unresolved flag items only, any status
+  groups.flag = states.filter(s=>s.item.direction==='flag' && s.state!=='ok');
+  groups.over = states.filter(s=>s.state==='over' && s.item.direction!=='flag');
+
+  const fill = (id, arr, emptyMsg) => {
+    const box = $(`#${id} .list`);
+    box.innerHTML = '';
+    if (!arr.length){ box.innerHTML = `<div class="empty-note">${emptyMsg}</div>`; return; }
+    arr.forEach(({item,state}) => box.appendChild(renderItem(item,state,asOf)));
+  };
+
+  fill('sec-overdue', groups.over, 'Nothing overdue as of this moment.');
+  fill('sec-today', groups.due, 'Nothing of yours is due today.');
+  fill('sec-flag', groups.flag, 'No open ownership gaps right now.');
+  fill('sec-waiting', groups.wait, 'Nothing outstanding from others right now.');
+  fill('sec-resolved', groups.ok, 'Nothing resolved yet.');
+
+  // conflicts
+  const conflictBox = $('#sec-conflict .list');
+  const conflicting = COMMITMENTS.filter(i=>i.conflictWith);
+  conflictBox.innerHTML = '';
+  if (!conflicting.length){
+    $('#sec-conflict').style.display='none';
+  } else {
+    $('#sec-conflict').style.display='';
+    conflicting.forEach(item=>{
+      const div = document.createElement('div');
+      div.className='item flag';
+      div.innerHTML = `<div class="item-top"><div class="item-title">${item.title}</div><span class="badge flag">Conflict</span></div><div class="item-meta">${item.conflictWith}</div>`;
+      conflictBox.appendChild(div);
+    });
+  }
+
+  // counts
+  const counts = $('#counts');
+  counts.innerHTML = `
+    <div class="count-card over"><div class="n">${groups.over.length}</div><div class="l">Overdue</div></div>
+    <div class="count-card due"><div class="n">${groups.due.length}</div><div class="l">Due today</div></div>
+    <div class="count-card flag"><div class="n">${groups.flag.length}</div><div class="l">Unclear owner</div></div>
+    <div class="count-card wait"><div class="n">${groups.wait.length}</div><div class="l">Waiting on others</div></div>
+    <div class="count-card ok"><div class="n">${groups.ok.length}</div><div class="l">Resolved</div></div>
+  `;
+}
+
+/* ---------- Q&A ---------- */
+function answerQuestion(q){
+  const asOf = $('#asOf').value;
+  const lower = q.toLowerCase();
+  const find = ids => COMMITMENTS.filter(c=>ids.includes(c.id));
+
+  const summarize = (items, introFn) => {
+    if (!items.length) return `<div class="a-head">Nothing matches that.</div>`;
+    return items.map(item=>{
+      const state = computeState(item, asOf);
+      return `<div style="margin-bottom:10px;"><div class="a-head">${item.title} <span class="badge ${state}" style="margin-left:6px;">${stateLabel(state)}</span></div><div>${item.note || ''}</div></div>`;
+    }).join('');
+  };
+
+  if (lower.includes('raghav')) return summarize(find(['vendor-list']));
+  if (lower.includes('neha') || lower.includes('deck') || lower.includes('campaign')) return summarize(find(['deck-draft','deck-review-meeting']));
+  if (lower.includes('divya') || lower.includes('expense') || lower.includes('variance')) return summarize(find(['expense-report']));
+  if (lower.includes('priya') || lower.includes('meridian')) return summarize(find(['meridian-call']));
+  if (lower.includes('mumbai') || lower.includes('lease') || lower.includes('facilit')) return summarize(find(['mumbai-lease']));
+  if (lower.includes('conflict')) return summarize(COMMITMENTS.filter(i=>i.conflictWith));
+
+  if (lower.includes('overdue') || lower.includes('late') || lower.includes('slip')){
+    const items = COMMITMENTS.filter(i=>computeState(i,asOf)==='over');
+    return items.length ? summarize(items) : `<div class="a-head">Nothing is overdue as of this checkpoint.</div>`;
+  }
+  if (lower.includes('unresolved') || lower.includes('unclear') || lower.includes('unowned') || lower.includes('own')){
+    const items = COMMITMENTS.filter(i=>i.direction==='flag' && computeState(i,asOf)!=='ok');
+    return items.length ? summarize(items) : `<div class="a-head">No open ownership gaps right now.</div>`;
+  }
+  if (lower.includes('waiting')){
+    const items = COMMITMENTS.filter(i=>computeState(i,asOf)==='wait');
+    return items.length ? summarize(items) : `<div class="a-head">Nothing outstanding from others right now.</div>`;
+  }
+  if (lower.includes('today') || lower.includes('action') || (lower.includes('what') && lower.includes('do'))){
+    const items = COMMITMENTS.filter(i=>{
+      const s = computeState(i,asOf);
+      return i.direction==='my_action' && (s==='due' || s==='over');
+    });
+    return items.length ? summarize(items) : `<div class="a-head">Nothing of yours is due right now.</div>`;
+  }
+
+  return `<div class="a-head">Not sure which item you mean.</div><div>Try asking about a person (Raghav, Neha, Divya, Priya), a topic (deck, lease, expense report, call), or a status (overdue, waiting, unclear ownership, today).</div>`;
+}
+
+/* ---------- Wiring ---------- */
+function populateAsOf(){
+  const sel = $('#asOf');
+  sel.innerHTML = CHECKPOINTS.map(c=>`<option value="${c.t}" data-id="${c.id}">${c.label}</option>`).join('');
+  const def = CHECKPOINTS.find(c=>c.id===DEFAULT_CHECKPOINT);
+  sel.value = def.t;
+}
+
+const CHIPS = [
+  'What did I promise Raghav?',
+  'What needs action today?',
+  'What am I waiting on?',
+  'What\'s unresolved?',
+  'Any calendar conflicts?',
+];
+
+function populateChips(){
+  $('#chips').innerHTML = CHIPS.map(c=>`<span class="chip">${c}</span>`).join('');
+  document.querySelectorAll('.chip').forEach(chip=>{
+    chip.addEventListener('click', ()=>{
+      $('#askInput').value = chip.textContent;
+      $('#answer').innerHTML = answerQuestion(chip.textContent);
+    });
+  });
+}
+
+$('#asOf') // placeholder to ensure DOM ready ordering below
+document.addEventListener('DOMContentLoaded', ()=>{
+  populateAsOf();
+  populateChips();
+  render();
+  $('#asOf').addEventListener('change', render);
+  $('#askBtn').addEventListener('click', ()=>{
+    const q = $('#askInput').value.trim();
+    if (q) $('#answer').innerHTML = answerQuestion(q);
+  });
+  $('#askInput').addEventListener('keydown', e=>{
+    if (e.key === 'Enter'){ $('#askBtn').click(); }
+  });
+});
+</script>
+</body>
+</html>
